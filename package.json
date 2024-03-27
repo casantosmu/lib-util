@@ -1,0 +1,40 @@
+{
+  "name": "lib-util",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "node .",
+    "build": "shx rm -rf dist && tsc --project tsconfig.build.json",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . && prettier . --check",
+    "lint:fix": "eslint --fix . && prettier . --write",
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.9",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "@vitest/coverage-v8": "^1.4.0",
+    "dotenv": "^16.4.5",
+    "eslint": "^8.57.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-unicorn": "^51.0.1",
+    "eslint-plugin-vitest": "^0.3.26",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "3.2.5",
+    "shx": "^0.3.4",
+    "typescript": "^5.4.3",
+    "vitest": "^1.2.2"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
+}
