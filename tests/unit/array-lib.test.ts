@@ -1,11 +1,11 @@
 import { describe, expect, test } from "vitest";
-import { ArrayLib } from "../../src/index.js";
+import { ArrayLib, Type } from "../../src/index.js";
 
 describe("ArrayLib", () => {
   describe("elementAt method", () => {
     describe("with an index where there is an element", () => {
       test("returns the element", () => {
-        const arrayLib = new ArrayLib(["a", "b"]);
+        const arrayLib = new ArrayLib(["a", "b"], Type.String);
 
         const result = arrayLib.elementAt(1);
 
@@ -15,7 +15,7 @@ describe("ArrayLib", () => {
 
     describe("with a negative index where there is a element", () => {
       test("returns the element counting back from the last item", () => {
-        const arrayLib = new ArrayLib(["a", "b"]);
+        const arrayLib = new ArrayLib(["a", "b"], Type.String);
 
         const result = arrayLib.elementAt(-1);
 
@@ -25,7 +25,7 @@ describe("ArrayLib", () => {
 
     describe("with an index where there is no element", () => {
       test("throws a RangeError", () => {
-        const arrayLib = new ArrayLib(["a", "b"]);
+        const arrayLib = new ArrayLib(["a", "b"], Type.String);
 
         const result = (): void => {
           arrayLib.elementAt(2);
@@ -39,7 +39,7 @@ describe("ArrayLib", () => {
   describe("first method", () => {
     describe("in an ArrayLib instance with elements", () => {
       test("returns first element", () => {
-        const arrayLib = new ArrayLib(["a", "b"]);
+        const arrayLib = new ArrayLib(["a", "b"], Type.String);
 
         const result = arrayLib.first();
 
@@ -49,7 +49,7 @@ describe("ArrayLib", () => {
 
     describe("in an empty ArrayLib instance", () => {
       test("throw an error", () => {
-        const arrayLib = new ArrayLib([]);
+        const arrayLib = new ArrayLib([], Type.String);
 
         const result = (): void => {
           arrayLib.first();

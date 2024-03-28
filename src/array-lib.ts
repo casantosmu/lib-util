@@ -1,6 +1,11 @@
+import type { Type } from "./types/type.js";
+
 export class ArrayLib<T> extends Array<T> {
-  constructor(...args: [T[]]) {
-    super(...args[0]);
+  private readonly type: Type<T>;
+
+  constructor(array: T[], type: Type<T>) {
+    super(...array);
+    this.type = type;
   }
 
   /*
@@ -11,7 +16,7 @@ export class ArrayLib<T> extends Array<T> {
    */
   elementAt(index: number): T {
     const element = this.at(index);
-    if (!element) {
+    if (element === undefined && !this.type.is(element)) {
       throw new RangeError(`index is outside the bounds.`);
     }
     return element;
@@ -23,8 +28,8 @@ export class ArrayLib<T> extends Array<T> {
    * @returns The first element.
    */
   first(): T {
-    const first = this[0];
-    if (!first) {
+    const first = this.find((element) => this.type.is(element));
+    if (first === undefined && !this.type.is(first)) {
       throw new Error("The ArrayLib is empty");
     }
     return first;
