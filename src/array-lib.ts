@@ -4,6 +4,20 @@ export class ArrayLib<T> extends Array<T> {
   }
 
   /*
+   * Returns the element at a specified index.
+   *
+   * index - The zero-based index of the element to retrieve. A negative index will count back from the last item.
+   * @returns The element at the specified position.
+   */
+  elementAt(index: number): T {
+    const element = this.at(index);
+    if (!element) {
+      throw new RangeError(`index is outside the bounds.`);
+    }
+    return element;
+  }
+
+  /*
    * Returns the first element
    *
    * @returns The first element.
