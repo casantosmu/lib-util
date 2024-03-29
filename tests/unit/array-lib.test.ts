@@ -13,13 +13,27 @@ describe("ArrayLib", () => {
       });
     });
 
-    describe("with a negative index where there is a element", () => {
-      test("returns the element counting back from the last item", () => {
+    describe("with a negative index where there is a element counting back from the last item", () => {
+      test("returns the element", () => {
         const arrayLib = new ArrayLib(["a", "b"], Type.String);
 
         const result = arrayLib.elementAt(-1);
 
         expect(result).toBe("b");
+      });
+    });
+
+    describe("in an ArrayLib instance with TypeString and TypeUndefined with an index where there is an undefined element", () => {
+      test("returns undefined", () => {
+        const arrayLib = new ArrayLib(
+          [undefined, "b"],
+          Type.String,
+          Type.Undefined,
+        );
+
+        const result = arrayLib.elementAt(0);
+
+        expect(result).toBe(undefined);
       });
     });
 
@@ -47,6 +61,18 @@ describe("ArrayLib", () => {
         expect(result).toThrow(RangeError);
       });
     });
+
+    describe("in an ArrayLib instance with TypeUndefined with an index where the element has been deleted", () => {
+      test("returns undefined", () => {
+        const arrayLib = new ArrayLib([undefined, undefined], Type.Undefined);
+        delete arrayLib[0];
+
+        // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
+        const result = arrayLib.elementAt(0);
+
+        expect(result).toBe(undefined);
+      });
+    });
   });
 
   describe("first method", () => {
@@ -60,6 +86,20 @@ describe("ArrayLib", () => {
       });
     });
 
+    describe("in an ArrayLib instance with TypeString and TypeUndefined where first element it's undefined", () => {
+      test("returns undefined", () => {
+        const arrayLib = new ArrayLib(
+          [undefined, "b"],
+          Type.String,
+          Type.Undefined,
+        );
+
+        const result = arrayLib.first();
+
+        expect(result).toBe(undefined);
+      });
+    });
+
     describe("in an ArrayLib instance where first element has been deleted", () => {
       test("returns next element counting from the removed element", () => {
         const arrayLib = new ArrayLib(["a", "b"], Type.String);
@@ -68,6 +108,18 @@ describe("ArrayLib", () => {
         const result = arrayLib.first();
 
         expect(result).toBe("b");
+      });
+    });
+
+    describe("in an ArrayLib instance with TypeUndefined where unique element has been deleted", () => {
+      test("returns undefined", () => {
+        const arrayLib = new ArrayLib([undefined], Type.Undefined);
+        delete arrayLib[0];
+
+        // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
+        const result = arrayLib.first();
+
+        expect(result).toBe(undefined);
       });
     });
 
