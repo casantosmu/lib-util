@@ -42,15 +42,23 @@ export class ArrayLib<T, E extends T> {
   /*
    * Returns the first element
    *
-   * @returns The first element.
+   * predicate - A function to test each element for a condition.
+   * @returns The first element if no predicate is provided, otherwise returns the first element that passes the test in the specified predicate function.
    */
-  first(): T {
-    const first = this.#elements.find((element) =>
-      this.#typeLib.matches(element),
-    );
-    if (first === undefined && !this.#typeLib.matches(first)) {
-      throw new TypeError("The ArrayLib is empty");
+  first(predicate?: (element: T) => boolean): T {
+    if (this.#elements.length === 0) {
+      throw new TypeError("The ArrayLib is empty.");
     }
-    return first;
+
+    if (!predicate) {
+      return this.elementAt(0);
+    }
+
+    for (const element of this.#elements) {
+      if (predicate(element)) {
+        return element;
+      }
+    }
+    throw new TypeError("No element satisfies the condition in predicate.");
   }
 }

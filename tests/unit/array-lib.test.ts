@@ -107,7 +107,7 @@ describe("ArrayLib", () => {
   });
 
   describe("first method", () => {
-    describe("in an ArrayLib instance with elements", () => {
+    describe("in an ArrayLib instance with elements, without condition", () => {
       test("returns first element", () => {
         const array = new ArrayLib(TypeLib.String, ["a", "b"]);
 
@@ -117,7 +117,7 @@ describe("ArrayLib", () => {
       });
     });
 
-    describe("in an ArrayLib instance with TypeString and TypeUndefined where first element it's undefined", () => {
+    describe("in an ArrayLib instance with TypeString and TypeUndefined where first element it's undefined, without condition", () => {
       test("returns undefined", () => {
         const array = new ArrayLib(TypeLib.String, TypeLib.Undefined, [
           undefined,
@@ -130,7 +130,31 @@ describe("ArrayLib", () => {
       });
     });
 
-    describe("in an empty ArrayLib instance", () => {
+    describe("in an ArrayLib instance with elements, with a condition that matches an element", () => {
+      test("returns first matched element", () => {
+        const arrayLib = new ArrayLib(TypeLib.String, ["a", "b"]);
+
+        const result = arrayLib.first((element) => element === "b");
+
+        expect(result).toBe("b");
+      });
+    });
+
+    describe("in an ArrayLib instance with elements, with a condition that matches no elements", () => {
+      test("throws an error", () => {
+        const arrayLib = new ArrayLib(TypeLib.String, ["a", "b"]);
+
+        const result = (): void => {
+          arrayLib.first((element) => element === "c");
+        };
+
+        expect(result).toThrow(
+          /No element satisfies the condition in predicate/,
+        );
+      });
+    });
+
+    describe("in an empty ArrayLib instance, without a condition", () => {
       test("throws an error", () => {
         const array = new ArrayLib(TypeLib.String, []);
 
@@ -138,7 +162,19 @@ describe("ArrayLib", () => {
           array.first();
         };
 
-        expect(result).toThrow(TypeError);
+        expect(result).toThrow(/The ArrayLib is empty/);
+      });
+    });
+
+    describe("in an empty ArrayLib instance, with a condition", () => {
+      test("throws an error", () => {
+        const array = new ArrayLib(TypeLib.String, []);
+
+        const result = (): void => {
+          array.first((element) => element === "b");
+        };
+
+        expect(result).toThrow(/The ArrayLib is empty/);
       });
     });
   });
