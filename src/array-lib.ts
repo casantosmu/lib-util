@@ -1,6 +1,15 @@
-export class ArrayLib<T> extends Array<T> {
-  constructor(...args: [T[]]) {
-    super(...args[0]);
+import type { TypeProvider } from "./type-providers/type-provider.js";
+import { TypeLib } from "./type-lib.js";
+
+export class ArrayLib<T, E extends T> extends Array<T> {
+  #typeLib;
+
+  constructor(...args: [TypeProvider<T>, ...TypeProvider<T>[], E[]]) {
+    super(...(args.pop() as E[]));
+    this.#typeLib = new TypeLib(
+      args.shift() as TypeProvider<T>,
+      ...(args as TypeProvider<T>[]),
+    );
   }
 
   /*
@@ -11,7 +20,7 @@ export class ArrayLib<T> extends Array<T> {
    */
   elementAt(index: number): T {
     const element = this.at(index);
-    if (!element) {
+    if (element === undefined && !this.#typeLib.is(element)) {
       throw new RangeError(`index is outside the bounds.`);
     }
     return element;
@@ -23,9 +32,9 @@ export class ArrayLib<T> extends Array<T> {
    * @returns The first element.
    */
   first(): T {
-    const first = this[0];
-    if (!first) {
-      throw new Error("The ArrayLib is empty");
+    const first = this.find((element) => this.#typeLib.is(element));
+    if (first === undefined && !this.#typeLib.is(first)) {
+      throw new TypeError("The ArrayLib is empty");
     }
     return first;
   }
