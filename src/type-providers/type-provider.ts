@@ -1,3 +1,3 @@
-export interface Type<T> {
+export interface TypeProvider<T> {
   is(value: unknown): value is T;
 }

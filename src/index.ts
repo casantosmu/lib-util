@@ -1,2 +1,2 @@
 export { ArrayLib } from "./array-lib.js";
-export { Type } from "./types/index.js";
+export { TypeLib } from "./type-lib.js";

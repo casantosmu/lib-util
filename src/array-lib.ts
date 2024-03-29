@@ -1,11 +1,15 @@
-import type { Type } from "./types/type.js";
+import type { TypeProvider } from "./type-providers/type-provider.js";
+import { TypeLib } from "./type-lib.js";
 
-export class ArrayLib<T> extends Array<T> {
-  private readonly types: Type<T>[];
+export class ArrayLib<T, E extends T> extends Array<T> {
+  #typeLib;
 
-  constructor(elements: T[], ...types: [Type<T>, ...Type<T>[]]) {
-    super(...elements);
-    this.types = types;
+  constructor(...args: [TypeProvider<T>, ...TypeProvider<T>[], E[]]) {
+    super(...(args.pop() as E[]));
+    this.#typeLib = new TypeLib(
+      args.shift() as TypeProvider<T>,
+      ...(args as TypeProvider<T>[]),
+    );
   }
 
   /*
@@ -16,7 +20,7 @@ export class ArrayLib<T> extends Array<T> {
    */
   elementAt(index: number): T {
     const element = this.at(index);
-    if (element === undefined && !this.is(element)) {
+    if (element === undefined && !this.#typeLib.is(element)) {
       throw new RangeError(`index is outside the bounds.`);
     }
     return element;
@@ -28,14 +32,10 @@ export class ArrayLib<T> extends Array<T> {
    * @returns The first element.
    */
   first(): T {
-    const first = this.find((element) => this.is(element));
-    if (first === undefined && !this.is(first)) {
-      throw new Error("The ArrayLib is empty");
+    const first = this.find((element) => this.#typeLib.is(element));
+    if (first === undefined && !this.#typeLib.is(first)) {
+      throw new TypeError("The ArrayLib is empty");
     }
     return first;
-  }
-
-  protected is(element: unknown): element is T {
-    return this.types.some((type) => type.is(element));
   }
 }
