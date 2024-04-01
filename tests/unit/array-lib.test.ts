@@ -74,7 +74,7 @@ describe("ArrayLib", () => {
     });
 
     describe("in an empty ArrayLib instance", () => {
-      test("throw an error", () => {
+      test("throws an error", () => {
         const array = new ArrayLib(TypeLib.String, []);
 
         const result = (): void => {
