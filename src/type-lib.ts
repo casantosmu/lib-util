@@ -12,7 +12,7 @@ export class TypeLib<T> {
     this.#providers = Object.freeze(providers);
   }
 
-  is(element: unknown): element is T {
-    return this.#providers.some((type) => type.is(element));
+  matches(element: unknown): element is T {
+    return this.#providers.some((type) => type.matches(element));
   }
 }

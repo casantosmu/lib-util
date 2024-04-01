@@ -20,7 +20,7 @@ export class ArrayLib<T, E extends T> extends Array<T> {
    */
   elementAt(index: number): T {
     const element = this.at(index);
-    if (element === undefined && !this.#typeLib.is(element)) {
+    if (element === undefined && !this.#typeLib.matches(element)) {
       throw new RangeError(`index is outside the bounds.`);
     }
     return element;
@@ -32,8 +32,8 @@ export class ArrayLib<T, E extends T> extends Array<T> {
    * @returns The first element.
    */
   first(): T {
-    const first = this.find((element) => this.#typeLib.is(element));
-    if (first === undefined && !this.#typeLib.is(first)) {
+    const first = this.find((element) => this.#typeLib.matches(element));
+    if (first === undefined && !this.#typeLib.matches(first)) {
       throw new TypeError("The ArrayLib is empty");
     }
     return first;
