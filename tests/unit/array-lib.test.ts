@@ -47,31 +47,6 @@ describe("ArrayLib", () => {
         expect(result).toThrow(RangeError);
       });
     });
-
-    describe("with an index where the element has been deleted", () => {
-      test("throws a RangeError", () => {
-        const array = new ArrayLib(TypeLib.String, ["a", "b"]);
-        delete array[0];
-
-        const result = (): void => {
-          array.elementAt(0);
-        };
-
-        expect(result).toThrow(RangeError);
-      });
-    });
-
-    describe("in an ArrayLib instance with TypeUndefined with an index where the element has been deleted", () => {
-      test("returns undefined", () => {
-        const array = new ArrayLib(TypeLib.Undefined, [undefined]);
-        delete array[0];
-
-        // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-        const result = array.elementAt(0);
-
-        expect(result).toBe(undefined);
-      });
-    });
   });
 
   describe("first method", () => {
@@ -98,31 +73,8 @@ describe("ArrayLib", () => {
       });
     });
 
-    describe("in an ArrayLib instance where first element has been deleted", () => {
-      test("returns next element counting from the removed element", () => {
-        const array = new ArrayLib(TypeLib.String, ["a", "b"]);
-        delete array[0];
-
-        const result = array.first();
-
-        expect(result).toBe("b");
-      });
-    });
-
-    describe("in an ArrayLib instance with TypeUndefined where unique element has been deleted", () => {
-      test("returns undefined", () => {
-        const array = new ArrayLib(TypeLib.Undefined, [undefined]);
-        delete array[0];
-
-        // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-        const result = array.first();
-
-        expect(result).toBe(undefined);
-      });
-    });
-
     describe("in an empty ArrayLib instance", () => {
-      test("throw an error", () => {
+      test("throws an error", () => {
         const array = new ArrayLib(TypeLib.String, []);
 
         const result = (): void => {

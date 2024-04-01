@@ -1,3 +1,3 @@
 export interface TypeProvider<T> {
-  is(value: unknown): value is T;
+  matches(value: unknown): value is T;
 }

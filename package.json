@@ -12,14 +12,14 @@
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint . && prettier . --check",
-    "lint:fix": "eslint --fix . && prettier . --write",
+    "lint:fix": "prettier . --write && eslint --fix .",
     "typecheck": "tsc --noEmit",
     "prepare": "husky install"
   },
   "devDependencies": {
     "@types/node": "^20.8.9",
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
     "@vitest/coverage-v8": "^1.4.0",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
