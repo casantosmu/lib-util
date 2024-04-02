@@ -1,7 +1,64 @@
 import { describe, expect, test } from "vitest";
-import { ArrayLib, TypeLib } from "../../src/index.js";
+import { ArrayLib } from "../../src/index.js";
+import { TypeLib } from "../../src/type-lib.js";
 
 describe("ArrayLib", () => {
+  describe("constructor", () => {
+    describe("does not receive expected 2 arguments", () => {
+      test("throws an error", () => {
+        // eslint-disable-next-line unicorn/consistent-function-scoping
+        const result = (): void => {
+          // @ts-expect-error Expects at least 2 arguments
+          new ArrayLib(TypeLib.String);
+        };
+
+        expect(result).toThrow(
+          /ArrayLib constructor requires at least two arguments/,
+        );
+      });
+    });
+
+    describe("last argument is not an array", () => {
+      test("throws an error", () => {
+        // eslint-disable-next-line unicorn/consistent-function-scoping
+        const result = (): void => {
+          // @ts-expect-error Last argument is not an array
+          new ArrayLib(TypeLib.String, undefined);
+        };
+
+        expect(result).toThrow(
+          /The last argument to the ArrayLib constructor must be an array/,
+        );
+      });
+    });
+
+    describe("first arguments does not matches TypeProvider interface", () => {
+      test("throws an error", () => {
+        // eslint-disable-next-line unicorn/consistent-function-scoping
+        const result = (): void => {
+          // @ts-expect-error Array type does not match type providers
+          new ArrayLib(undefined, ["a"]);
+        };
+
+        expect(result).toThrow(/Expected a TypeProvider object/);
+      });
+    });
+
+    describe("array does not match type providers", () => {
+      test("throws an error", () => {
+        // eslint-disable-next-line unicorn/consistent-function-scoping
+        const result = (): void => {
+          // @ts-expect-error Array type does not match type providers
+          new ArrayLib(TypeLib.String, [undefined]);
+        };
+
+        expect(result).toThrow(
+          /undefined does not match any of the provided types/,
+        );
+      });
+    });
+  });
+
   describe("elementAt method", () => {
     describe("with an index where there is an element", () => {
       test("returns the element", () => {

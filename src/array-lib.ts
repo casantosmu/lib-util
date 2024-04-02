@@ -3,14 +3,26 @@ import { TypeLib } from "./type-lib.js";
 
 export class ArrayLib<T, E extends T> {
   #elements;
-  #typeLib;
+  #typeLib: TypeLib<T>;
 
   constructor(...args: [TypeProvider<T>, ...TypeProvider<T>[], E[]]) {
-    this.#elements = args.pop() as E[];
-    this.#typeLib = new TypeLib(
-      args.shift() as TypeProvider<T>,
-      ...(args as TypeProvider<T>[]),
-    );
+    if (args.length < 2) {
+      throw new TypeError(
+        `ArrayLib constructor requires at least two arguments, but received ${args.length.toString()}.`,
+      );
+    }
+
+    const elements = args.pop();
+    if (!Array.isArray(elements)) {
+      throw new TypeError(
+        `The last argument to the ArrayLib constructor must be an array, but received type '${typeof elements}'.`,
+      );
+    }
+    this.#elements = elements;
+
+    // @ts-expect-error TypeLib validates its arguments
+    this.#typeLib = new TypeLib(...args);
+    this.#typeLib.assertAllMatch(this.#elements);
   }
 
   /*
