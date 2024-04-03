@@ -59,6 +59,28 @@ describe("ArrayLib", () => {
     });
   });
 
+  describe("count method", () => {
+    describe("without a condition", () => {
+      test("returns the total number of elements", () => {
+        const arrayLib = new ArrayLib(TypeLib.String, ["a", "a", "b", "b"]);
+
+        const result = arrayLib.count();
+
+        expect(result).toBe(4);
+      });
+    });
+
+    describe("with a condition", () => {
+      test("returns the number of elements that match the condition", () => {
+        const arrayLib = new ArrayLib(TypeLib.String, ["a", "a", "b", "b"]);
+
+        const result = arrayLib.count((element) => element === "a");
+
+        expect(result).toBe(2);
+      });
+    });
+  });
+
   describe("elementAt method", () => {
     describe("with an index where there is an element", () => {
       test("returns the element", () => {
