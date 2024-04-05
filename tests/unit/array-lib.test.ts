@@ -59,6 +59,48 @@ describe("ArrayLib", () => {
     });
   });
 
+  describe("any method", () => {
+    describe("in an empty ArrayLib instance, without a condition", () => {
+      test("returns false", () => {
+        const arrayLib = new ArrayLib(TypeLib.String, []);
+
+        const result = arrayLib.any();
+
+        expect(result).toBe(false);
+      });
+
+      describe("in an ArrayLib instance with elements, without a condition", () => {
+        test("returns true", () => {
+          const arrayLib = new ArrayLib(TypeLib.String, ["a", "b"]);
+
+          const result = arrayLib.any();
+
+          expect(result).toBe(true);
+        });
+      });
+
+      describe("in an ArrayLib instance with elements, with a condition that matches some elements", () => {
+        test("returns true", () => {
+          const arrayLib = new ArrayLib(TypeLib.String, ["a", "b"]);
+
+          const result = arrayLib.any((element) => element === "a");
+
+          expect(result).toBe(true);
+        });
+      });
+
+      describe("in an ArrayLib instance with elements, with a condition that matches no elements", () => {
+        test("returns false", () => {
+          const arrayLib = new ArrayLib(TypeLib.String, ["a", "b"]);
+
+          const result = arrayLib.any((element) => element === "c");
+
+          expect(result).toBe(false);
+        });
+      });
+    });
+  });
+
   describe("count method", () => {
     describe("without a condition", () => {
       test("returns the total number of elements", () => {

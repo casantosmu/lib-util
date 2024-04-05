@@ -26,6 +26,18 @@ export class ArrayLib<T, E extends T> {
   }
 
   /*
+   * Determines whether any element exists or satisfies a condition.
+   *
+   * @param predicate - A function to test each element for a condition.
+   * @returns true if contains any element; otherwise, false. If a predicate is provided, returns true if is not empty and at least one of the elements passes the test in the specified predicate; otherwise, false.
+   */
+  any(predicate?: (element: T) => boolean): boolean {
+    return predicate
+      ? this.#elements.some((element) => predicate(element))
+      : this.#elements.length > 0;
+  }
+
+  /*
    * Returns the number of elements.
    *
    * @param predicate - A function to test each element for a condition.
