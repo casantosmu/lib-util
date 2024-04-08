@@ -44,9 +44,17 @@ export class ArrayLib<T, E extends T> {
    * @returns The number of elements if no predicate is provided, otherwise returns a number that represents how many elements satisfy the condition in the predicate function.
    */
   count(predicate?: (element: T) => boolean): number {
-    return predicate
-      ? this.#elements.filter((element) => predicate(element)).length
-      : this.#elements.length;
+    if (!predicate) {
+      return this.#elements.length;
+    }
+
+    let count = 0;
+    for (const element of this.#elements) {
+      if (predicate(element)) {
+        count++;
+      }
+    }
+    return count;
   }
 
   /*
