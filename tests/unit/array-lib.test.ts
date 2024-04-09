@@ -1,9 +1,41 @@
 import { describe, expect, test } from "vitest";
-import { ArrayLib } from "../../src/index.js";
-import { TypeLib } from "../../src/type-lib.js";
+import { ArrayLib, TypeLib } from "../../src/index.js";
 
 describe("ArrayLib", () => {
   describe("constructor", () => {
+    describe("receives a single TypeProvider and an array matching the TypeProvider", () => {
+      test("does not throws an error", () => {
+        // eslint-disable-next-line unicorn/consistent-function-scoping
+        const result = (): void => {
+          new ArrayLib(TypeLib.String, ["a", "b"]);
+        };
+
+        expect(result).not.toThrow();
+      });
+    });
+
+    describe("receives multiple TypeProviders and an array matching the TypeProviders", () => {
+      test("does not throws an error", () => {
+        // eslint-disable-next-line unicorn/consistent-function-scoping
+        const result = (): void => {
+          new ArrayLib(TypeLib.String, TypeLib.Undefined, ["a", undefined]);
+        };
+
+        expect(result).not.toThrow();
+      });
+    });
+
+    describe("receives a TypeLib instance and an array matching the TypeLib", () => {
+      test("does not throws an error", () => {
+        // eslint-disable-next-line unicorn/consistent-function-scoping
+        const result = (): void => {
+          new ArrayLib(new TypeLib(TypeLib.String), ["a", "b"]);
+        };
+
+        expect(result).not.toThrow();
+      });
+    });
+
     describe("does not receive expected 2 arguments", () => {
       test("throws an error", () => {
         // eslint-disable-next-line unicorn/consistent-function-scoping
@@ -44,12 +76,26 @@ describe("ArrayLib", () => {
       });
     });
 
-    describe("array does not match type providers", () => {
+    describe("array does not match TypeProvider", () => {
       test("throws an error", () => {
         // eslint-disable-next-line unicorn/consistent-function-scoping
         const result = (): void => {
           // @ts-expect-error Array type does not match type providers
           new ArrayLib(TypeLib.String, [undefined]);
+        };
+
+        expect(result).toThrow(
+          /undefined does not match any of the provided types/,
+        );
+      });
+    });
+
+    describe("array does not match TypeLib", () => {
+      test("throws an error", () => {
+        // eslint-disable-next-line unicorn/consistent-function-scoping
+        const result = (): void => {
+          // @ts-expect-error Array type does not match type providers
+          new ArrayLib(new TypeLib(TypeLib.String), [undefined]);
         };
 
         expect(result).toThrow(

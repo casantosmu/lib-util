@@ -5,7 +5,9 @@ export class ArrayLib<T, E extends T> {
   #elements;
   #typeLib: TypeLib<T>;
 
-  constructor(...args: [TypeProvider<T>, ...TypeProvider<T>[], E[]]) {
+  constructor(
+    ...args: [TypeProvider<T>, ...TypeProvider<T>[], E[]] | [TypeLib<T>, E[]]
+  ) {
     if (args.length < 2) {
       throw new TypeError(
         `ArrayLib constructor requires at least two arguments, but received ${args.length.toString()}.`,
@@ -21,7 +23,7 @@ export class ArrayLib<T, E extends T> {
     this.#elements = elements;
 
     // @ts-expect-error TypeLib validates its arguments
-    this.#typeLib = new TypeLib(...args);
+    this.#typeLib = args instanceof TypeLib ? args : new TypeLib(...args);
     this.#typeLib.assertAllMatch(this.#elements);
   }
 
@@ -31,7 +33,7 @@ export class ArrayLib<T, E extends T> {
    * @param predicate - A function to test each element for a condition.
    * @returns true if contains any element; otherwise, false. If a predicate is provided, returns true if is not empty and at least one of the elements passes the test in the specified predicate; otherwise, false.
    */
-  any(predicate?: (element: T) => boolean): boolean {
+  any(predicate?: (element: E) => boolean): boolean {
     return predicate
       ? this.#elements.some((element) => predicate(element))
       : this.#elements.length > 0;
@@ -43,7 +45,7 @@ export class ArrayLib<T, E extends T> {
    * @param predicate - A function to test each element for a condition.
    * @returns The number of elements if no predicate is provided, otherwise returns a number that represents how many elements satisfy the condition in the predicate function.
    */
-  count(predicate?: (element: T) => boolean): number {
+  count(predicate?: (element: E) => boolean): number {
     if (!predicate) {
       return this.#elements.length;
     }
@@ -77,7 +79,7 @@ export class ArrayLib<T, E extends T> {
    * predicate - A function to test each element for a condition.
    * @returns The first element if no predicate is provided, otherwise returns the first element that passes the test in the specified predicate function.
    */
-  first(predicate?: (element: T) => boolean): T {
+  first(predicate?: (element: E) => boolean): T {
     if (this.#elements.length === 0) {
       throw new TypeError("The ArrayLib is empty.");
     }
