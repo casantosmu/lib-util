@@ -27,11 +27,27 @@ export class ArrayLib<T, E extends T> {
     this.#typeLib.assertAllMatch(this.#elements);
   }
 
-  /*
+  /**
    * Determines whether any element exists or satisfies a condition.
    *
    * @param predicate - A function to test each element for a condition.
    * @returns true if contains any element; otherwise, false. If a predicate is provided, returns true if is not empty and at least one of the elements passes the test in the specified predicate; otherwise, false.
+   *
+   * @example
+   * Determine whether an ArrayLib contains any elements.
+   * ```
+   * const letters = new ArrayLib(TypeLib.String, ["a", "b", "c"]);
+   * // Prints "true"
+   * console.log(letters.any());
+   * ```
+   *
+   * @example
+   * Determine whether any element in an ArrayLib satisfies a condition.
+   * ```
+   * const letters = new ArrayLib(TypeLib.String, ["a", "b", "c"]);
+   * // Prints "true"
+   * console.log(letters.any((letter) => letter === "d"));
+   * ```
    */
   any(predicate?: (element: E) => boolean): boolean {
     return predicate
@@ -39,11 +55,27 @@ export class ArrayLib<T, E extends T> {
       : this.#elements.length > 0;
   }
 
-  /*
+  /**
    * Returns the number of elements.
    *
    * @param predicate - A function to test each element for a condition.
    * @returns The number of elements if no predicate is provided, otherwise returns a number that represents how many elements satisfy the condition in the predicate function.
+   *
+   * @example
+   * Get the total count of elements in an ArrayLib without a predicate.
+   * ```
+   * const letters = new ArrayLib(TypeLib.String, ["a", "b", "c"]);
+   * // Prints "3"
+   * console.log(letters.count());
+   * ```
+   *
+   * @example
+   * Get the count of elements that satisfy a condition.
+   * ```
+   * const letters = new ArrayLib(TypeLib.String, ["a", "b", "c"]);
+   * // Prints "1"
+   * console.log(letters.count((letter) => letter === "a"));
+   * ```
    */
   count(predicate?: (element: E) => boolean): number {
     if (!predicate) {
@@ -59,11 +91,27 @@ export class ArrayLib<T, E extends T> {
     return count;
   }
 
-  /*
+  /**
    * Returns the element at a specified index.
    *
    * index - The zero-based index of the element to retrieve. A negative index will count back from the last item.
    * @returns The element at the specified position.
+   *
+   * @example
+   * Retrieve the element at index 1.
+   * ```
+   * const letters = new ArrayLib(TypeLib.String, ["a", "b", "c"]);
+   * // Prints "b"
+   * console.log(letters.elementAt(1));
+   * ```
+   *
+   * @example
+   * Retrieve the last element by specifying a negative index.
+   * ```
+   * const letters = new ArrayLib(TypeLib.String, ["a", "b", "c"]);
+   * // Prints "c"
+   * console.log(letters.elementAt(-1));
+   * ```
    */
   elementAt(index: number): T {
     const element = this.#elements.at(index);
@@ -73,11 +121,27 @@ export class ArrayLib<T, E extends T> {
     return element;
   }
 
-  /*
-   * Returns the first element
+  /**
+   * Returns the first element.
    *
    * predicate - A function to test each element for a condition.
    * @returns The first element if no predicate is provided, otherwise returns the first element that passes the test in the specified predicate function.
+   *
+   * @example
+   * Retrieve the first element without a predicate.
+   * ```
+   * const letters = new ArrayLib(TypeLib.String, ["a", "b", "c"]);
+   * // Prints "a"
+   * console.log(letters.first());
+   * ```
+   *
+   * @example
+   * Retrieve the first element that satisfies a condition.
+   * ```
+   * const letters = new ArrayLib(TypeLib.String, ["a", "b", "c"]);
+   * // Prints "b"
+   * console.log(letters.first((letter) => letter !== "a"));
+   * ```
    */
   first(predicate?: (element: E) => boolean): T {
     if (this.#elements.length === 0) {
