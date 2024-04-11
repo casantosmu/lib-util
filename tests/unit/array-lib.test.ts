@@ -288,4 +288,16 @@ describe("ArrayLib", () => {
       });
     });
   });
+
+  describe("toArray method", () => {
+    describe("in an ArrayLib instance with elements", () => {
+      test("returns the elements as an array", () => {
+        const array = new ArrayLib(TypeLib.String, ["a", "b"]);
+
+        const result = array.toArray();
+
+        expect(result).toStrictEqual(["a", "b"]);
+      });
+    });
+  });
 });

@@ -159,4 +159,21 @@ export class ArrayLib<T, E extends T> {
     }
     throw new TypeError("No element satisfies the condition in predicate.");
   }
+
+  /**
+   * Copies the elements of the ArrayLib to a new array.
+   *
+   * @returns An array containing copies of the elements of the ArrayLib.
+   *
+   * @example
+   * Retrieve the elements of the ArrayLib.
+   * ```
+   * const letters = new ArrayLib(TypeLib.String, ["a", "b", "c"]);
+   * // Prints "["a", "b", "c"]"
+   * console.log(letters.toArray());
+   * ```
+   */
+  toArray(): E[] {
+    return [...this.#elements];
+  }
 }
