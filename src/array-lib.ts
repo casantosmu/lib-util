@@ -23,7 +23,7 @@ export class ArrayLib<T, E extends T> {
     this.#elements = elements;
 
     // @ts-expect-error TypeLib validates its arguments
-    this.#typeLib = args instanceof TypeLib ? args : new TypeLib(...args);
+    this.#typeLib = args[0] instanceof TypeLib ? args[0] : new TypeLib(...args);
     this.#typeLib.assertAllMatch(this.#elements);
   }
 
